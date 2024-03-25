@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <span>{{ request.user.username }}</span>
+            <button><a href="{% url 'search_user' %}">Search User</a></button>
+            <button><a href="{% url 'profile' %}">Go to Profile</a></button>
+        </div>
+    </header>
+    <div class="container">
+        <h2>Student Profile</h2><br/>
+        <div class="profile-details">
+            <p>Name: {{ user.first_name }}</p>
+            <p>Last Name: {{user.last_name }}</p>
+        
+            <!-- Детали профиля студента -->
+            <p>Faculty: {{ user.student.faculty }}</p>
+            <p>Course: {{ user.student.course }}</p>
+            {% if user.student.profile_photo %}
+            <p>Profile Photo: <img src="{{ user.student.profile_photo.url }}" alt="Profile Photo"style="width: 150px; height: 150px;"></p>
+            {% else %}
+            <p>No profile photo available</p>
+            {% endif %}
+            <p>Github: <a href="{{ user.student.github }}">{{ user.student.github }}</a></p>
+            <br/>
+        
+        
+        <br/><br/><br/><br/>
+        <h3>Projects</h3>
+            <ul>
+                {% for project in projects %}
+                <li>
+                    <p>Title: {{ project.title }}</p>
+                    <p>Description: {{ project.description }}</p>
+                    {% if project.photo %}
+                    <p>Photo: <img src="{{ project.photo.url }}" alt="Project Photo"></p>
+                    {% endif %}
+                    
+                </li>
+                {% endfor %}
+            </ul>
+        
+          
+        </div>
+    </div>
+    
+</body>
+</html>

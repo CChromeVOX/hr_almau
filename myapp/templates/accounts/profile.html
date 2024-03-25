@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Profile</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <span>{{ request.user.username }}</span>
+            <button><a href="{% url 'search_user' %}">Search User</a></button>
+            <button><a href="{% url 'profile' %}">Go to Profile</a></button>
+        </div>
+    </header>
+        <div class="container">
+            <h2>Student Profile</h2><br/>
+            <div class="profile-details">
+                <p>Name: {{ student.user.first_name }}</p>
+                <p>Last Name: {{ student.user.last_name }}</p>
+            
+                <!-- Детали профиля студента -->
+                <p>Faculty: {{ student.faculty }}</p>
+                <p>Course: {{ student.course }}</p>
+                {% if student.profile_photo %}
+                <p>Profile Photo: <img src="{{ student.profile_photo.url }}" alt="Profile Photo"style="width: 150px; height: 150px;"></p>
+                {% else %}
+                <p>No profile photo available</p>
+                {% endif %}
+                <p>Github: <a href="{{ student.github }}">{{ student.github }}</a></p>
+                <br/>
+            
+                <!-- Кнопка для перехода на страницу редактирования профиля -->
+                <a href="{% url 'edit_profile' %}"><button>Edit Profile</button></a>
+            
+                <!-- Список проектов студента -->
+            <br/><br/><br/><br/>
+            <h3>Projects</h3>
+                <ul>
+                    {% for project in projects %}
+                    <li>
+                        <p>Title: {{ project.title }}</p>
+                        <p>Description: {{ project.description }}</p>
+                        {% if project.photo %}
+                        <p>Photo: <img src="{{ project.photo.url }}" alt="Project Photo"></p>
+                        {% endif %}
+                        <p><a href="{% url 'edit_project' project.id %}">Edit</a> | <a href="{% url 'delete_project' project.id %}">Delete</a></p>
+                    </li>
+                    {% endfor %}
+                </ul>
+            
+                <!-- Форма для добавления нового проекта -->
+                <br/><br/>
+                <h3>Add New Project</h3>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <br/>
+                    <button type="submit">Add Project</button>
+                </form>
+            </div>
+        </div>
+
+</body>
+</html>

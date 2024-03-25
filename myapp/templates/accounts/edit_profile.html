@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h2>Edit Profile</h2>
+        <form class="edit-profile-form" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id_faculty">Faculty:</label>
+                {{ form.faculty }}
+            </div>
+            <div class="form-group">
+                <label for="id_course">Course:</label>
+                {{ form.course }}
+            </div>
+            <div class="form-group">
+                <label for="id_profile_photo">Profile Photo:</label>
+                {{ form.profile_photo }}
+            </div>
+            <div class="form-group">
+                <label for="id_github">Github:</label>
+                {{ form.github }}
+            </div>
+            <button class="submit-button" type="submit">Save</button>
+        </form>
+    </div>
+</body>
+</html>

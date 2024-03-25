@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+</head>
+<style>
+</style>
+<body>
+    <header>
+        <div class="header-left">
+            <span>{{ request.user.username }}</span>
+            <button><a href="{% url 'search_user' %}">Search User</a></button>
+            <button><a href="{% url 'profile' %}">Go to Profile</a></button>
+        </div>
+    </header>
+
+    <h1>Welcome to the Main Page</h1>
+</body>
+</html>

@@ -1,0 +1,61 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search User</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <style>
+        /* CSS for two-column layout */
+        .container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px; /* Adjust the gap between cards */
+        }
+
+        .profile-card {
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <span>{{ request.user.username }}</span>
+            <button><a href="{% url 'search_user' %}">Search User</a></button>
+            <button><a href="{% url 'profile' %}">Go to Profile</a></button>
+        </div>
+    </header>
+    <h1>Search User</h1>
+    <p><a href="{% url 'main' %}">Back to Main</a></p>
+    <form id="searchForm" method="POST">
+        {% csrf_token %}
+        <input type="text" id="searchInput" name="search" placeholder="Enter username...">
+        <button type="submit">Search</button>
+    </form>
+
+    <br>
+
+    <div class="container">
+        {% if users %}
+            {% for user in users %}
+                <div class="profile-card">
+                    <h2><a href="/resume/{{ user.id }}/">{{ user.first_name }} {{ user.last_name }}</a></h2>
+                    <div class="profile-details">
+                        {% if user.student.profile_photo %}
+                            <img src="{{ user.student.profile_photo.url }}" alt="Profile Photo" style="width: 100px; height: 100px;">
+                        {% else %}
+                            <p>No profile photo available</p>
+                        {% endif %}
+                        <p>Faculty: {{ user.student.faculty }}</p>
+                        <p>Course: {{ user.student.course }}</p>
+                        <p>Github: <a href="{{ user.student.github }}">{{ user.student.github }}</a></p>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+</body>
+</html>
